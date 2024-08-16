@@ -1,25 +1,28 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import login from '../../assets/login.png';
 import { AuthContext } from '../../Provider/AuthProvider';
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/'; // Get the `from` state or default to '/'
 
   const handleLogin = (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
 
     signIn(email, password)
-    .then((result) => {
-      const user = result.user;
-      console.log(user);
-    })
-    .catch((error) => console.log(error));
-};
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        navigate(from, { replace: true }); // Redirect to the `from` location or home page
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <div className="hero bg-base-200 min-h-screen">

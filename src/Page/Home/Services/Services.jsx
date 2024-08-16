@@ -8,7 +8,7 @@ const Services = () => {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    fetch("services.json")
+    fetch("http://localhost:5000/services")
       .then((res) => {
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -17,6 +17,8 @@ const Services = () => {
       })
       .then((data) => {
         setServices(data);
+       
+        
       })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
